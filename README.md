@@ -6,6 +6,8 @@ Any dotfiles can be individually extracted and used elsewhere, but overall I aut
 
 `yadm clone` should be on the dotfiles repo proper, not this one.
 
+To work on this repo, clone with `git clone --recursive https://github.com/gnodar01/dotfiles_mgmt.git`.
+
 ## Kitty
 
 I use the kitty terminal.
