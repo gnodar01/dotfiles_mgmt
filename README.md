@@ -34,6 +34,8 @@ cat blah | tic -x -o \~/.terminfo /dev/stdin
 rm blah
 ```
 
+[Shell Integration](https://sw.kovidgoyal.net/kitty/shell-integration/) can be done [automatically](https://sw.kovidgoyal.net/kitty/shell-integration/#shell-integration-over-ssh) via ssh using `kitten ssh hostname`, or [manally](https://sw.kovidgoyal.net/kitty/shell-integration/#manual-shell-integration).
+
 ## Prerequisites — install BEFORE `yadm clone`
 
 Programs that should already be on a fresh machine so that `yadm clone` (and the
