@@ -55,7 +55,7 @@ every shell/nvim start · **[feature]** only a specific alias/command breaks if 
 | Program | Why |
 |---|---|
 | **yadm** | The dotfiles manager itself. `sudo apt-get install yadm` / `brew install yadm`. **[essential]** |
-| **git** | yadm is a git wrapper; also used by zsh_unplugged (clones plugins) and lazy.nvim (clones plugins). **[essential]** |
+| **git** (≥ 2.35) | yadm is a git wrapper; also used by zsh_unplugged (clones plugins) and lazy.nvim (clones plugins). **Must be ≥ 2.35**: `.gitconfig` sets `merge.conflictstyle = zdiff3`, which only exists in git 2.35+ (Jan 2022). On older git (e.g. Ubuntu 22.04 ships 2.34.1) every *submodule* checkout aborts with `fatal: unknown style 'zdiff3'`, which silently breaks the only two submodule-bearing nvim plugins — **luasnip** (`deps/jsregexp*`) and **yazi.nvim** (`yazi-plugin/yazi-plugins`) — and any real merge/rebase. Ubuntu 22.04 fix: `sudo add-apt-repository ppa:git-core/ppa && sudo apt-get update && sudo apt-get install git`. **[essential]** |
 | **openssh-client** (`ssh`) | The clone URL is `git@github.com:…` (SSH). git needs the `ssh` binary. Usually already present on real machines. **[essential]** |
 
 ### 2. zsh shell
@@ -137,4 +137,7 @@ brew install yadm git zsh starship fzf neovim tree-sitter ripgrep fd \
 must come from upstream releases/installers (see `Containerfile` for exact steps).
 apt covers: `git zsh openssh-client ripgrep fd-find bat jq build-essential
 python3 python3-pip nodejs npm luarocks unzip curl` (note apt names `fd`→`fdfind`,
-`bat`→`batcat` — symlink them to `fd`/`bat`).
+`bat`→`batcat` — symlink them to `fd`/`bat`). **On Ubuntu ≤ 22.04, apt's git is
+2.34.1 — too old for the `zdiff3` conflict style (see the git row above); add
+`ppa:git-core/ppa` and upgrade, or luasnip/yazi will fail to build.** 24.04+
+ships git ≥ 2.43 and is fine.

@@ -29,6 +29,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       luarocks \
     && rm -rf /var/lib/apt/lists/*
 
+# --- git version floor -------------------------------------------------------
+# The dotfiles' .gitconfig sets `merge.conflictstyle = zdiff3`, which only exists
+# in git >= 2.35 (Jan 2022). On older git, *submodule* checkouts abort with
+# `fatal: unknown style 'zdiff3'`, silently breaking the only two submodule-bearing
+# nvim plugins (luasnip -> deps/jsregexp*, yazi.nvim -> yazi-plugin/yazi-plugins).
+# Ubuntu 24.04 ships git 2.43, so the floor is met here — this assertion just fails
+# the build loudly if the base image is ever downgraded below the supported minimum.
+RUN set -eux; \
+    gv="$(git --version | grep -oE '[0-9]+\.[0-9]+' | head -1)"; req=2.35; \
+    [ "$(printf '%s\n%s\n' "$req" "$gv" | sort -V | head -1)" = "$req" ] \
+      || { echo "FATAL: git $gv < $req — dotfiles need >= $req for zdiff3 (see README)"; exit 1; }; \
+    echo "git $gv >= $req OK"
+
 # best-effort extras (present in universe; don't fail the build if absent)
 RUN apt-get update \
     && (apt-get install -y --no-install-recommends hexyl || true) \
