@@ -1,6 +1,10 @@
 # Dotfiles
 
+This is a wrapper around [dotfiles](https://github.com/gnodar01/dotfiles) to host this README and some scripts to help manage them.
+
 Any dotfiles can be individually extracted and used elsewhere, but overall I automate dotfile extraction and maanagement via [yadm](https://yadm.io/).
+
+`yadm clone` should be on the dotfiles repo proper, not this one.
 
 ## Kitty
 
