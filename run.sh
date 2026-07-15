@@ -10,6 +10,7 @@
 #   ./run.sh up             # (re)create a fresh container, detached
 #   ./run.sh clone          # yadm clone -b <branch> --bootstrap  (inside container)
 #   ./run.sh verify         # run the git/zsh/nvim verification pass
+#   ./run.sh log            # show the unified bootstrap log from the container
 #   ./run.sh shell          # drop into an interactive login zsh in the container
 #   ./run.sh exec <cmd...>  # run an arbitrary command in the container
 #   ./run.sh clean          # remove the container
@@ -28,6 +29,8 @@ CTR="${CTR:-yadmize-run}"
 BRANCH="${BRANCH:-yadmize-test}"
 REPO="${REPO:-git@github.com:gnodar01/dotfiles.git}"
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# unified bootstrap log inside the container (see .config/yadm/bootstrap)
+BOOTSTRAP_LOG='${XDG_STATE_HOME:-$HOME/.local/state}/yadm/bootstrap.log'
 
 # ssh command used inside the container: accept new host keys, use the mounted
 # known_hosts (github.com is already trusted there), and the mounted key.
@@ -97,6 +100,12 @@ cmd_verify() {
     sed -n "1,60p" /tmp/health.txt 2>&1
   '
   echo "================== END VERIFY =================="
+  echo ">>> full bootstrap log: ./run.sh log"
+}
+
+cmd_log() {
+  ctr_running || { echo "no container; run ./run.sh up && ./run.sh clone" >&2; exit 1; }
+  podman exec "$CTR" bash -lc "cat \"$BOOTSTRAP_LOG\" 2>/dev/null || echo \"no bootstrap log at $BOOTSTRAP_LOG\""
 }
 
 cmd_shell() { ctr_running || cmd_up; exec podman exec -it "$CTR" /bin/zsh -l; }
@@ -108,6 +117,7 @@ case "${1:-all}" in
   up)     cmd_up ;;
   clone)  cmd_clone ;;
   verify) cmd_verify ;;
+  log)    cmd_log ;;
   shell)  cmd_shell ;;
   exec)   cmd_exec "$@" ;;
   clean)  cmd_clean ;;
