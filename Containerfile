@@ -48,6 +48,7 @@ RUN curl -fsSL https://pixi.sh/install.sh | sh \
 #   nodejs       -> node + npm        (mason's JS-based servers)
 #   python=3.13  -> python / python3  (mason's Python-based servers)
 RUN pixi global install \
+      file \
       git \
       ripgrep \
       fd-find \
@@ -83,7 +84,7 @@ RUN set -eux; \
 # (rg, fd, delta, tree-sitter) or bundle a second one (npm). Fail loudly if any
 # expected command is missing rather than discovering it at dotfiles-bootstrap time.
 RUN set -eux; \
-    for c in git rg fd bat jq python python3 node npm luarocks hexyl \
+    for c in file git rg fd bat jq python python3 node npm luarocks hexyl \
              tree-sitter fzf eza starship delta nvim yazi zsh yadm; do \
       command -v "$c" >/dev/null || { echo "FATAL: missing command: $c"; exit 1; }; \
     done; \
@@ -91,7 +92,7 @@ RUN set -eux; \
 
 # --- report what we ended up with -------------------------------------------
 RUN echo "=== installed tool versions ===" \
-    && for t in git zsh yadm nvim tree-sitter fzf starship pixi yazi eza bat fd rg jq hexyl delta node npm python luarocks; do \
+    && for t in file git zsh yadm nvim tree-sitter fzf starship pixi yazi eza bat fd rg jq hexyl delta node npm python luarocks; do \
          printf '%-12s ' "$t"; (command -v "$t" >/dev/null && "$t" --version 2>/dev/null | head -1) || echo "MISSING"; \
        done
 
