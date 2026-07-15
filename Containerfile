@@ -1,7 +1,8 @@
 # yadmize test harness — fresh Ubuntu box for exercising the dotfiles bring-up.
 #
-# Scope: git + zsh + neovim (+ their direct deps). Deps installed via
-# "apt where it's good enough, manual otherwise" — mirroring a real fresh host.
+# Scope: git + zsh + neovim (+ their direct deps). Strategy: apt provides only the
+# base OS tooling and the C toolchain mason needs; every user-facing CLI comes from
+# `pixi global install` (conda-forge) so versions are current and arch-independent.
 # Runs as root so a read-only bind-mount of the host ~/.ssh (owned by your uid,
 # which maps to container-root under rootless podman) is readable with 0600 perms.
 #
@@ -16,117 +17,82 @@ ENV DEBIAN_FRONTEND=noninteractive \
     HOME=/root
 
 # --- core apt deps -----------------------------------------------------------
-# Grouped: base tooling, the scope CLIs available in apt, and the nvim/mason
-# toolchain (node + python + a C toolchain so mason can build/fetch servers).
+# Only the base OS bits and the build toolchain: mason (nvim) needs a C/C++
+# compiler + make + unzip/tar to build/fetch language servers. zsh is the login
+# shell; yadm does the dotfiles bootstrap. Everything else comes from pixi below.
 RUN apt-get update && apt-get install -y --no-install-recommends \
       ca-certificates curl wget gnupg locales openssh-client \
-      git zsh \
-      yadm \
-      ripgrep fd-find bat jq silversearcher-ag \
       build-essential make gcc g++ unzip tar \
-      python3 python3-pip python3-venv \
-      nodejs npm \
-      luarocks \
+      zsh yadm \
     && rm -rf /var/lib/apt/lists/*
+
+# generate the UTF-8 locale so zsh/nvim glyphs and completion behave
+RUN sed -i 's/^# *en_US.UTF-8/en_US.UTF-8/' /etc/locale.gen && locale-gen
+
+# --- pixi --------------------------------------------------------------------
+# Package/env manager (not in apt). Official installer drops the binary in
+# $HOME/.pixi/bin; `pixi global install` also exposes tool shims there. Put that
+# first on PATH so pixi-provided tools shadow anything from the base image.
+ENV PATH=/root/.pixi/bin:$PATH
+RUN curl -fsSL https://pixi.sh/install.sh | sh \
+    && pixi --version
+
+# --- pixi global tools -------------------------------------------------------
+# Every user-facing CLI (from conda-forge). Each package gets its own isolated
+# environment; binaries are exposed onto /root/.pixi/bin. Name notes:
+#   ripgrep      -> rg
+#   fd-find      -> fd
+#   git-delta    -> delta
+#   tree-sitter-cli -> tree-sitter   (required by nvim-treesitter's `main` branch)
+#   nvim         -> neovim itself (the `neovim` package is the python client, not the editor)
+#   nodejs       -> node + npm        (mason's JS-based servers)
+#   python=3.13  -> python / python3  (mason's Python-based servers)
+RUN pixi global install \
+      git \
+      ripgrep \
+      fd-find \
+      bat \
+      jq \
+      "python=3.13" \
+      nodejs \
+      luarocks \
+      hexyl \
+      tree-sitter-cli \
+      fzf \
+      eza \
+      starship \
+      git-delta \
+      nvim \
+      yazi
 
 # --- git version floor -------------------------------------------------------
 # The dotfiles' .gitconfig sets `merge.conflictstyle = zdiff3`, which only exists
 # in git >= 2.35 (Jan 2022). On older git, *submodule* checkouts abort with
 # `fatal: unknown style 'zdiff3'`, silently breaking the only two submodule-bearing
 # nvim plugins (luasnip -> deps/jsregexp*, yazi.nvim -> yazi-plugin/yazi-plugins).
-# Ubuntu 24.04 ships git 2.43, so the floor is met here — this assertion just fails
-# the build loudly if the base image is ever downgraded below the supported minimum.
+# conda-forge's git is well past the floor — this assertion just fails the build
+# loudly if that ever regresses.
 RUN set -eux; \
     gv="$(git --version | grep -oE '[0-9]+\.[0-9]+' | head -1)"; req=2.35; \
     [ "$(printf '%s\n%s\n' "$req" "$gv" | sort -V | head -1)" = "$req" ] \
       || { echo "FATAL: git $gv < $req — dotfiles need >= $req for zdiff3 (see README)"; exit 1; }; \
     echo "git $gv >= $req OK"
 
-# best-effort extras (present in universe; don't fail the build if absent)
-RUN apt-get update \
-    && (apt-get install -y --no-install-recommends hexyl || true) \
-    && rm -rf /var/lib/apt/lists/*
-
-# generate the UTF-8 locale so zsh/nvim glyphs and completion behave
-RUN sed -i 's/^# *en_US.UTF-8/en_US.UTF-8/' /etc/locale.gen && locale-gen
-
-# --- apt binary-name fixups --------------------------------------------------
-# Ubuntu ships fd as `fdfind` and bat as `batcat`; the dotfiles' aliases call
-# bare `fd` and `bat`. Provide the expected names on PATH.
-RUN ln -sf "$(command -v fdfind)" /usr/local/bin/fd \
-    && ln -sf "$(command -v batcat)" /usr/local/bin/bat
-
-# --- manual installs (apt versions too old / absent) -------------------------
-ARG TARGETARCH=amd64
-
-# neovim — apt's is too old for lazy/plugins; grab latest stable release.
+# --- verify expected binary names are on PATH --------------------------------
+# Several conda-forge packages expose a binary whose name differs from the package
+# (rg, fd, delta, tree-sitter) or bundle a second one (npm). Fail loudly if any
+# expected command is missing rather than discovering it at dotfiles-bootstrap time.
 RUN set -eux; \
-    case "$(uname -m)" in \
-      x86_64)  NV=nvim-linux-x86_64 ;; \
-      aarch64) NV=nvim-linux-arm64  ;; \
-      *) echo "unsupported arch $(uname -m)"; exit 1 ;; \
-    esac; \
-    curl -fsSL -o /tmp/nvim.tar.gz \
-      "https://github.com/neovim/neovim/releases/latest/download/${NV}.tar.gz"; \
-    tar -C /opt -xzf /tmp/nvim.tar.gz; \
-    ln -sf "/opt/${NV}/bin/nvim" /usr/local/bin/nvim; \
-    rm -f /tmp/nvim.tar.gz; \
-    nvim --version | head -1
-
-# tree-sitter CLI — REQUIRED by nvim-treesitter's `main` branch to compile parsers
-# (the `master` branch didn't need it). Not in the user's original dep list.
-RUN set -eux; \
-    case "$(uname -m)" in \
-      x86_64)  TS=x64 ;; \
-      aarch64) TS=arm64 ;; \
-      *) echo "unsupported arch $(uname -m)"; exit 1 ;; \
-    esac; \
-    curl -fsSL -o /tmp/ts.gz \
-      "https://github.com/tree-sitter/tree-sitter/releases/latest/download/tree-sitter-linux-${TS}.gz"; \
-    gunzip -c /tmp/ts.gz > /usr/local/bin/tree-sitter; \
-    chmod +x /usr/local/bin/tree-sitter; \
-    rm -f /tmp/ts.gz; \
-    tree-sitter --version
-
-# fzf — apt's lacks `fzf --zsh` (needs >=0.48). Official installer gives latest.
-RUN git clone --depth 1 https://github.com/junegunn/fzf.git /opt/fzf \
-    && /opt/fzf/install --bin \
-    && ln -sf /opt/fzf/bin/fzf /usr/local/bin/fzf \
-    && fzf --version
-
-# eza — not in apt. Release asset name is version-stable, so latest/download works.
-RUN set -eux; \
-    case "$(uname -m)" in \
-      x86_64)  EZ=eza_x86_64-unknown-linux-gnu.tar.gz ;; \
-      aarch64) EZ=eza_aarch64-unknown-linux-gnu.tar.gz ;; \
-      *) echo "unsupported arch $(uname -m)"; exit 1 ;; \
-    esac; \
-    curl -fsSL -o /tmp/eza.tar.gz \
-      "https://github.com/eza-community/eza/releases/latest/download/${EZ}"; \
-    tar -C /usr/local/bin -xzf /tmp/eza.tar.gz; \
-    rm -f /tmp/eza.tar.gz; \
-    eza --version | head -1
-
-# starship — not in apt. Official installer.
-RUN curl -fsSL https://starship.rs/install.sh | sh -s -- -y \
-    && starship --version
-
-# delta — optional (git pager). Best-effort pinned .deb; don't fail build.
-ARG DELTA_VERSION=0.18.2
-RUN set -eux; \
-    case "$(uname -m)" in x86_64) DA=amd64 ;; aarch64) DA=arm64 ;; *) DA= ;; esac; \
-    if [ -n "$DA" ]; then \
-      curl -fsSL -o /tmp/delta.deb \
-        "https://github.com/dandavison/delta/releases/download/${DELTA_VERSION}/git-delta_${DELTA_VERSION}_${DA}.deb" \
-        && dpkg -i /tmp/delta.deb || echo "delta install skipped"; \
-      rm -f /tmp/delta.deb; \
-    fi; \
-    (delta --version || echo "delta not installed")
+    for c in git rg fd bat jq python python3 node npm luarocks hexyl \
+             tree-sitter fzf eza starship delta nvim yazi zsh yadm; do \
+      command -v "$c" >/dev/null || { echo "FATAL: missing command: $c"; exit 1; }; \
+    done; \
+    echo "all expected commands present"
 
 # --- report what we ended up with -------------------------------------------
 RUN echo "=== installed tool versions ===" \
-    && for t in git zsh yadm nvim tree-sitter fzf starship eza bat fd rg ag jq hexyl delta node npm python3; do \
-         printf '%-10s ' "$t"; (command -v "$t" >/dev/null && "$t" --version 2>/dev/null | head -1) || echo "MISSING"; \
+    && for t in git zsh yadm nvim tree-sitter fzf starship pixi yazi eza bat fd rg jq hexyl delta node npm python luarocks; do \
+         printf '%-12s ' "$t"; (command -v "$t" >/dev/null && "$t" --version 2>/dev/null | head -1) || echo "MISSING"; \
        done
 
 WORKDIR /root

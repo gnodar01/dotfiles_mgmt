@@ -53,7 +53,7 @@ cmd_up() {
     -e "GIT_SSH_COMMAND=$SSH_CMD" \
     "$IMAGE" sleep infinity >/dev/null
   echo ">>> container up. tools:"
-  podman exec "$CTR" bash -lc 'for t in git zsh yadm nvim fzf starship eza bat fd rg; do printf "%-9s " "$t"; command -v "$t" >/dev/null && "$t" --version 2>/dev/null | head -1 || echo MISSING; done'
+  podman exec "$CTR" bash -lc 'for t in git zsh yadm nvim tree-sitter fzf starship yazi eza bat fd rg jq hexyl delta node npm python luarocks; do printf "%-12s " "$t"; command -v "$t" >/dev/null && "$t" --version 2>/dev/null | head -1 || echo MISSING; done'
 }
 
 cmd_clone() {
