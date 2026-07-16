@@ -48,6 +48,7 @@ RUN curl -fsSL https://pixi.sh/install.sh | sh \
 #   nodejs       -> node + npm        (mason's JS-based servers)
 #   python=3.13  -> python / python3  (mason's Python-based servers)
 RUN pixi global install \
+      less \
       file \
       git \
       ripgrep \
