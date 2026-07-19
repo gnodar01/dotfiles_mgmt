@@ -21,6 +21,15 @@ For a clean fresh-host `yadm clone --bootstrap`, the *dotfiles* needed:
 - an `nvim##default` relative-symlink alt (`../../../../superhome/config/nvim`),
   because the nvim alternates were hostname-only with no default — so a brand-new
   host got no nvim config at all.
+- a tracked `.config/yadm/config` with `yadm.auto-alt = false`, plus a "safe alt"
+  block at the top of the bootstrap. **Why:** yadm's automatic `alt` stage
+  overwrites any pre-existing *real* file at a symlink target during `yadm clone`
+  — on old yadm (`ln -nfs`) it silently discards it (e.g. a hand-written `~/.zshrc`).
+  Disabling auto-alt makes clone never clobber on **any** yadm version; the
+  bootstrap then backs up any conflicting real files (into
+  `~/.local/state/yadm/preexisting/`), runs `yadm alt` itself, restores backups
+  whose alt didn't apply, and reports the rest. Net: bring-up is non-destructive
+  regardless of the host's yadm version. Regression-guarded by `./run.sh test`.
 These live in the dotfiles repo, not this harness; details in `../plan.md`.
 
 ## Working conventions (learned the hard way)
@@ -42,6 +51,8 @@ These live in the dotfiles repo, not this harness; details in `../plan.md`.
   - `./run.sh up` — fresh detached container (prints a tool-version banner)
   - `./run.sh clone` — `yadm clone --bootstrap` inside the container
   - `./run.sh verify` — git/zsh/nvim verification pass
+  - `./run.sh test` — non-destructive alt regression (seeds real `~/.zshrc` +
+    `~/.gitconfig`, clones, asserts they're preserved, not clobbered)
   - `./run.sh shell` / `./run.sh exec <cmd>` — interactive / one-off
   - `./run.sh clean` — remove the container
   - `./run.sh` (no arg) — build (if needed) + up + clone + verify
@@ -64,9 +75,17 @@ These live in the dotfiles repo, not this harness; details in `../plan.md`.
 
 - **apt** provides only the base OS bits + the C toolchain mason needs:
   `ca-certificates curl wget gnupg locales openssh-client build-essential make
-  gcc g++ unzip tar zsh yadm`.
-- **Everything user-facing comes from `pixi global install`** (conda-forge), so
-  versions are current and arch-independent. pixi is on `PATH` first
+  gcc g++ unzip tar zsh`.
+- **`yadm` is vendored from upstream**, not apt or pixi. apt's yadm (Ubuntu 24.04
+  → 3.2.2) links alts with `ln -nfs`, force-clobbering pre-existing files during
+  `alt`; the non-destructive "skip if target exists" fix is post-3.5.0 and
+  unreleased, and yadm isn't on conda-forge. The `Containerfile` downloads the
+  single-file yadm script at a pinned commit (`ARG YADM_REF`) into
+  `/usr/local/bin/yadm`. Bump `YADM_REF` to a tag once one includes commit
+  `4214de8`. (You can build against old yadm — `--build-arg YADM_REF=3.2.2` — to
+  confirm the dotfiles-side safety net still keeps `./run.sh test` green.)
+- **Everything else user-facing comes from `pixi global install`** (conda-forge),
+  so versions are current and arch-independent. pixi is on `PATH` first
   (`/root/.pixi/bin`) so its tools shadow the base image.
 
 ### conda-forge package-name gotchas

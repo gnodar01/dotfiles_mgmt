@@ -19,11 +19,12 @@ ENV DEBIAN_FRONTEND=noninteractive \
 # --- core apt deps -----------------------------------------------------------
 # Only the base OS bits and the build toolchain: mason (nvim) needs a C/C++
 # compiler + make + unzip/tar to build/fetch language servers. zsh is the login
-# shell; yadm does the dotfiles bootstrap. Everything else comes from pixi below.
+# shell. Everything else comes from pixi below. yadm is vendored from upstream
+# (next block) rather than apt — see the note there.
 RUN apt-get update && apt-get install -y --no-install-recommends \
       ca-certificates curl wget gnupg locales openssh-client \
       build-essential make gcc g++ unzip tar \
-      zsh yadm \
+      zsh \
     && rm -rf /var/lib/apt/lists/*
 
 # generate the UTF-8 locale so zsh/nvim glyphs and completion behave
@@ -66,6 +67,21 @@ RUN pixi global install \
       git-delta \
       nvim \
       yazi
+
+# --- yadm (vendored from upstream, NOT apt) ----------------------------------
+# apt's yadm on Ubuntu 24.04 is 3.2.2, whose `alt` stage links with `ln -nfs` and
+# thus FORCE-OVERWRITES any pre-existing real file at a symlink target during
+# `yadm clone` — silently discarding the user's file (e.g. a hand-written ~/.zshrc).
+# The non-destructive behavior ("skip alt if the target already exists", mirroring
+# clone's own conflict-protection) landed post-3.5.0 and is not in a tagged release
+# yet, so we pin the single-file yadm script at the commit that introduced it.
+# yadm is a self-contained bash script; runs after pixi so its deps (git, bash,
+# awk) are on PATH. `yadm version` shells out to git, hence the ordering.
+ARG YADM_REF=4214de8d91746ca7f7690ebe1fd500c365b3d1b7
+RUN curl -fLo /usr/local/bin/yadm \
+      "https://github.com/yadm-dev/yadm/raw/${YADM_REF}/yadm" \
+    && chmod a+x /usr/local/bin/yadm \
+    && yadm version
 
 # --- git version floor -------------------------------------------------------
 # The dotfiles' .gitconfig sets `merge.conflictstyle = zdiff3`, which only exists
