@@ -467,7 +467,7 @@ sudo pacman -S wtype
 
 [Authentication agents](https://wiki.hypr.land/useful-utilities/must-have/#authentication-agent) ask for permission to elevate privilages.
 
-`hyperpolkitagent` is [generally recommended](https://wiki.hypr.land/hypr-ecosystem/user/hyprpolkitagent/).
+`hyprpolkitagent` is [generally recommended](https://wiki.hypr.land/hypr-ecosystem/user/hyprpolkitagent/).
 
 A [polkit](https://wiki.archlinux.org/title/Polkit) is a specific app-level toolkit for this, extended by `hyperpolkitagent`, and [others](https://wiki.archlinux.org/title/Polkit#Authentication_agents).
 
@@ -530,6 +530,18 @@ Install [NetworkManager](https://wiki.archlinux.org/title/NetworkManager) to use
 sudo pacman -Q networkmanager
 systemctl enable NetworkManager.service
 reboot
+```
+
+#### Bluetooth
+
+[Bluetooth](https://wiki.archlinux.org/title/Bluetooth) is enabled through the `Bluez` protocol stack.
+
+`bluez` provides the Bluetooth protocol stack, `bluez-utils` the `bluetoothctl` util, and `bluez-deprecated-tools` gives additional utils.
+Many frontends exist, both in console like `bluetoothctl`, and graphical, like `Blueman`.
+
+```bash
+sudo pacman -S bluez bluez-utils blueman
+sudo systemctl enable bluetooth.service
 ```
 
 ### Wallpaper - swaybg
