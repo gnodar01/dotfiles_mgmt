@@ -477,6 +477,8 @@ It will simulate typing, for things like emojis.
 sudo pacman -S wtype
 ```
 
+[Icons](https://wiki.archlinux.org/title/Icons) are supported via the [rofi extended dmenu protocol](https://man.archlinux.org/man/extra/rofi/rofi-thumbnails.5.en).
+
 ### Authentication Agent - hyprpolkitagent
 
 [Authentication agents](https://wiki.hypr.land/useful-utilities/must-have/#authentication-agent) ask for permission to elevate privilages.
