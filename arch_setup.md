@@ -152,6 +152,14 @@ dependants
 pacman -Sii <package_name> # Required By section
 ```
 
+remove package
+
+```bash
+pacman -Rn <package_name>
+# also remove unused deps
+pacman -Rsn <package_name>
+```
+
 ### Dotfiles
 
 already installed:
@@ -229,7 +237,7 @@ NOTE: Have to use `https` because can't get ssh key set up yet.
 yadm clone https://github.com/gnodar01/dotfiles.git
 ```
 
-## hyprland
+### hyprland
 
 Install hyprland
 
@@ -296,6 +304,12 @@ Reset and confirm all is working:
 systemctl --user status pipewire wireplumber
 wpctl status # ships with wireplumber, lists devices and sinks
 pactl info # reports server as PulseAudio running on PipeWire
+```
+
+[hyprpwcenter](https://wiki.hypr.land/hypr-ecosystem/user/hyprpwcenter/) is a useful GUI for pipewire.
+
+```bash
+sudo pacman -S hyprpwcenter
 ```
 
 ### QT Wayland
@@ -522,6 +536,12 @@ mkdir ~/.config/ashell
 # touch ~/.config/ashell/config.toml
 ```
 
+Install [hyprshutdown](https://wiki.hypr.land/hypr-ecosystem/user/hyprshutdown/) for the shutdown/reboot/logout buttons.
+
+```bash
+sudo pacman -S hyprshutdown
+```
+
 #### NetworkManager
 
 Install [NetworkManager](https://wiki.archlinux.org/title/NetworkManager) to use as a network status backend.
@@ -604,18 +624,40 @@ Install [waylock](https://codeberg.org/ifreund/waylock).
 sudo pacman -S waylock
 ```
 
+### Screen Capture
+
+[Screen capture](https://wiki.archlinux.org/title/Screen_capture) software for screenshots and screencasts (screen recording) [varies](https://wiki.hypr.land/useful-utilities/screenshots-and-recording/) a lot.
+
+[hyprshot](https://github.com/Gustash/hyprshot) is a convenience script wrapping `grim` (takes screenshots) and `slurp` (to select regions).
+However it is unmaintained, and has at least one bug, so I keep a modified copy in my dotfiles.
+
+NOTE: for the `-z, --freeze` option, [hyprpicker](https://wiki.hypr.land/hypr-ecosystem/user/hyprpicker/) is needed.
+
+NOTE: [hyprcap](https://github.com/alonso-herreros/hyprcap) is a similar wrapper, integrating with `fuzzel`, but also also useful for screen recording via `wl-recorder`, only on the AUR.
+
+[satty](https://github.com/Satty-org/Satty) is a screenshot annotation tool.
+
+Install `satty` and `hyprshot` deps (`grim` and `slurp`).
+
+```bash
+sudo pacman -S grim slurp satty
+```
+
 ## TODO
 
-* configure ashell
-  * logout, reboot, shutdown, reboot into
-  * bluetooth (`bluez`, `bluez-utils`, `blueman`), wifi
-  * volume
-  * notifications?
-  * updates
-* auto-sleep?
 * screen shot / share / capture
 * zoom
 * configure hyprland keybindings
+* auto-sleep? (idle managment daemon, `hypridle`)
 * kitty / yazi drag and drop?
 * flatpak
 * firewall (eg `ufw`), and other hardening
+* clipboard manager
+* XDG
+    * config
+    * XDG_PICTURES_DIR (`hyprshot` respects this)
+* [free desktop](https://wiki.archlinux.org/title/XDG_Desktop_Portal)
+    * `~/.config/xdg-desktop-portal/portals.conf`
+    * org.freedesktop.portal.Settings
+    * org.freedesktop.portal.InhibitSettings
+    * org.freedesktop.portal.FileChooser
