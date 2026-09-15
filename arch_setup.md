@@ -3,7 +3,7 @@
 Follow [Installation Guide](https://wiki.archlinux.org/title/Installation_guide),
 with some differences to acount for UEFI to dual-boot Bazzite.
 
-Log of that is gone.
+See [dual_boot.md](dual_boot.md) for details.
 
 ### Network Configuration
 
