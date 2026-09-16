@@ -76,9 +76,8 @@ entirely by doing the resize in the right order.
 Boot a live ISO again. In the space freed up in step 1:
 
 ```
-/        (ext4 or btrfs)   e.g. 50-100G
-/home    (optional, ext4/btrfs)  remainder
-swap     (optional)
+swap     (optional)              e.g. 32G
+/        (ext4 or btrfs)         remainder (no separate /home)
 ```
 
 Do **not** create a new EFI partition — Arch will reuse the existing one
@@ -87,16 +86,15 @@ Do **not** create a new EFI partition — Arch will reuse the existing one
 Format the new partitions, e.g.:
 
 ```bash
-mkfs.ext4 /dev/nvme0n1p4      # Arch /
-mkfs.ext4 /dev/nvme0n1p5      # Arch /home (optional)
+mkswap /dev/nvme0n1p4          # swap
+mkfs.ext4 /dev/nvme0n1p5       # Arch / (whole remaining space)
 ```
 
 ## 3. Mount and install the base system
 
 ```bash
-mount /dev/nvme0n1p4 /mnt
-mkdir /mnt/home
-mount /dev/nvme0n1p5 /mnt/home
+mount /dev/nvme0n1p5 /mnt
+swapon /dev/nvme0n1p4
 
 mkdir -p /mnt/boot/efi
 mount /dev/nvme0n1p1 /mnt/boot/efi
