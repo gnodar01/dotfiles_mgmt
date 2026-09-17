@@ -645,6 +645,14 @@ Install `satty` and `hyprshot` deps (`grim` and `slurp`).
 sudo pacman -S grim slurp satty
 ```
 
+### MPV
+
+Install [MPV](https://wiki.archlinux.org/title/Mpv).
+
+```bash
+sudo pacman -S mpv
+```
+
 ### Flatpak
 
 [Install flatpak](https://wiki.archlinux.org/title/Flatpak) and reboot.
@@ -673,11 +681,6 @@ flatpak install flathub io.github.kolunmi.Bazaar
 
 ## TODO
 
-* flatpak
-    * flatpak
-    * flatseal
-    * warehouse (?)
-    * Bazaar (?)
 * configure hyprland keybindings
     * better zoom
 * auto-sleep? (idle managment daemon, `hypridle`)
