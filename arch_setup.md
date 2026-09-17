@@ -645,16 +645,47 @@ Install `satty` and `hyprshot` deps (`grim` and `slurp`).
 sudo pacman -S grim slurp satty
 ```
 
+### Flatpak
+
+[Install flatpak](https://wiki.archlinux.org/title/Flatpak) and reboot.
+
+```bash
+sudo pacman -S flatpak
+reboot
+```
+
+Verify that the main repo is setup:
+
+```bash
+flatpak remtoes --show-details -json
+```
+
+Install [flatseal](https://flathub.org/en/apps/com.github.tchx84.Flatseal), [Warehouse](https://flathub.org/en/apps/io.github.flattool.Warehouse), [Bazaar](https://flathub.org/en/apps/io.github.kolunmi.Bazaar).
+
+```bash
+flatpak install flathub com.github.tchx84.Flatseal
+# flatpak run com.github.tchx84.Flatseal
+flatpak install flathub io.github.flattool.Warehouse
+# flatpak run io.github.flattool.Warehouse
+flatpak install flathub io.github.kolunmi.Bazaar
+# flatpak run io.github.kolunmi.Bazaar
+```
+
 ## TODO
 
-* screen shot / share / capture
-* zoom
-* configure hyprland keybindings
-* auto-sleep? (idle managment daemon, `hypridle`)
-* kitty / yazi drag and drop?
 * flatpak
+    * flatpak
+    * flatseal
+    * warehouse (?)
+    * Bazaar (?)
+* configure hyprland keybindings
+    * better zoom
+* auto-sleep? (idle managment daemon, `hypridle`)
 * firewall (eg `ufw`), and other hardening
 * clipboard manager
+* containers
+    * podman
+    * distrobox?
 * XDG
     * config
     * XDG_PICTURES_DIR (`hyprshot` respects this)
