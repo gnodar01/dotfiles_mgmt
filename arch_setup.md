@@ -53,6 +53,8 @@ ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 
 ## Post-Install
 
+### Update Keyring
+
 Update the keyring (it's older than the live cd, so upgrades will fail without it)
 
 NOTE: I don't remember running `pacman-key --init`,
@@ -107,6 +109,15 @@ pacman -S yadm
 ```
 
 #### Genral System Maintanance
+
+Use [reflector](https://wiki.archlinux.org/title/Reflector) to set mirrors for `pacman`.
+
+```bash
+sudo pacman -S reflector
+relector --country US --latest 10 --sort rate
+# use --save /etc/pacman.d/mirrorlist
+# or mnually add to /etc/pacman.d/mirrorlist
+```
 
 [List of installed packages](https://wiki.archlinux.org/title/Pacman/Tips_and_tricks#List_of_installed_packages)
 
