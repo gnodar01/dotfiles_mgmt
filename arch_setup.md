@@ -708,3 +708,26 @@ flatpak install flathub io.github.kolunmi.Bazaar
     * org.freedesktop.portal.Settings
     * org.freedesktop.portal.InhibitSettings
     * org.freedesktop.portal.FileChooser
+* `uwsm`?
+* fonts (noto symbols, etc)
+* useful apps (prioritize flatpak?)
+    * [okular](https://okular.kde.org/) - document viewer (pdf, comics, epub, markdown, more)
+    * [gwenview](https://apps.kde.org/gwenview/) - image viewer
+    * [file roller](https://fileroller.sourceforge.net/features.html) - archive manager (7z, tgz, etc)
+* GUI themeing
+    * GTK
+        * [adw-gtk-theme](https://github.com/lassekongo83/adw-gtk3)
+        * [nwg-look](https://github.com/nwg-piotr/nwg-look), [gui](https://nwg-piotr.github.io/nwg-shell/nwg-look)
+    * QT
+        * [qt6ct-kde](https://aur.archlinux.org/packages/qt6ct-kde)
+            * WARN: [do not](https://www.reddit.com/r/hyprland/comments/1mx954f/why_tf_do_i_need_qt6ctkde_in_order_to_theme/) get normal `qt5ct`, it's unpatched for KDE apps, and dead in general
+            * `hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")`
+        * [qt5ct-kde](https://aur.archlinux.org/packages/qt5ct-kde)
+            * WARN: [do not](https://www.reddit.com/r/hyprland/comments/1mx954f/why_tf_do_i_need_qt6ctkde_in_order_to_theme/) get normal `qt5ct`, it's unpatched for KDE apps, and dead in general
+        * [kvantum](https://github.com/tsujan/kvantum)
+            * [qt5](https://archlinux.org/packages/extra/x86_64/kvantum-qt5/)
+            * [qt6](https://archlinux.org/packages/extra/x86_64/kvantum/) (required by above)
+        * `hypr.conf`
+    * KDE Plasma's Breeze style
+        * [breeze](https://archlinux.org/packages/extra/x86_64/breeze/)
+        * [breeze-gtk](https://archlinux.org/packages/extra/any/breeze-gtk/)
