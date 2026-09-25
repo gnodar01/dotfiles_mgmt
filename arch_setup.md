@@ -700,14 +700,18 @@ flatpak install flathub io.github.kolunmi.Bazaar
 * containers
     * podman
     * distrobox?
-* XDG
-    * config
-    * XDG_PICTURES_DIR (`hyprshot` respects this)
+* app images - gear lever (`it.mijorus.gearleaver`)
 * [free desktop](https://wiki.archlinux.org/title/XDG_Desktop_Portal)
     * `~/.config/xdg-desktop-portal/portals.conf`
     * org.freedesktop.portal.Settings
     * org.freedesktop.portal.InhibitSettings
     * org.freedesktop.portal.FileChooser
+    * XDG
+        * config
+        * XDG_PICTURES_DIR (`hyprshot` respects this)
+        * `xdg-open`, [info](https://dabase.com/tips/archlinux/2021/Setting-the-default-browser/)
+        * mime types, [tutorial](https://www.youtube.com/watch?v=z3F0hTigMvU)
+* icon pack
 * `uwsm`?
 * fonts (noto symbols, etc)
 * useful apps (prioritize flatpak?)
@@ -731,3 +735,6 @@ flatpak install flathub io.github.kolunmi.Bazaar
     * KDE Plasma's Breeze style
         * [breeze](https://archlinux.org/packages/extra/x86_64/breeze/)
         * [breeze-gtk](https://archlinux.org/packages/extra/any/breeze-gtk/)
+
+
+Chris Titus has some nice [stuff](dwm.christitus.com/dependencies.html), but uses fedora base, X, dwm, and quickshell, so lots I can't copy.
