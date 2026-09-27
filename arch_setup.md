@@ -643,6 +643,8 @@ sudo pacman -S waylock
 
 [Screen capture](https://wiki.archlinux.org/title/Screen_capture) software for screenshots and screencasts (screen recording) [varies](https://wiki.hypr.land/useful-utilities/screenshots-and-recording/) a lot.
 
+#### Screenshots
+
 [hyprshot](https://github.com/Gustash/hyprshot) is a convenience script wrapping `grim` (takes screenshots) and `slurp` (to select regions).
 However it is unmaintained, and has at least one bug, so I keep a modified copy in my dotfiles.
 
@@ -657,6 +659,27 @@ Install `satty` and `hyprshot` deps (`grim` and `slurp`).
 ```bash
 sudo pacman -S grim slurp satty
 ```
+
+#### Sreencasts
+
+NOTE: This step is actually done after flatpak setup, below.
+
+Install [Open Broadcaster Software](https://wiki.archlinux.org/title/Open_Broadcaster_Software).
+It can be used for video recording, live streaming, and more.
+
+```bash
+flatpak install flathub com.obsproject.Studio
+```
+
+[OBS Studio on hyprland](https://gist.github.com/brunoanc/2dea6ddf6974ba4e5d26c3139ffb7580)
+used to be a bit more involved, but AFAICT it "just works" now, with no additional setup (after reboot once).
+
+WARN: Only `xdg-desktop-portal-hyprland` and `xdg-desktop-portal-gtk` (for file dialogs only) are allowed,
+otherwise black screens may occur in OBS.
+Other portal implementations should be removed.
+
+`grim` and `slurp`, installed above, are used as optional dependencies.
+`pipewire` and `wireplumber`, installed above, are required dependencies.
 
 ### MPV
 
