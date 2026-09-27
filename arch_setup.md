@@ -1,3 +1,5 @@
+# MAGWAI
+
 ## Initial
 
 Follow [Installation Guide](https://wiki.archlinux.org/title/Installation_guide),
