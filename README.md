@@ -121,6 +121,13 @@ Guarded in config (no error if absent) or tied to out-of-scope tooling:
 | **the_silver_searcher** (`ag`) | Referenced only in a legacy vim comment — not used by current zsh/nvim. Install only if you use old vim. **[optional]** |
 | **pixi** | A package manager you sometimes use; not required by the dotfiles themselves. **[optional]** |
 
+
+#### Super Optional
+
+* `imagemagick`
+* `ffmpeg`
+* `resvg` - e.g. svg rendering for `yazi`
+
 ---
 
 ### Quick copy-paste baselines
