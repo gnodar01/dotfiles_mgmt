@@ -715,6 +715,12 @@ flatpak install flathub io.github.kolunmi.Bazaar
 # flatpak run io.github.kolunmi.Bazaar
 ```
 
+### Themes
+
+Install [adw-gtk-theme](https://github.com/lassekongo83/adw-gtk3) for gtk dark mode in hyprland settings to work.
+
+That places `adw-gtk3/` and `adw-gtk3-dark/` into `/usr/share/themes`. Subdirectories there exist for gtk4 as well.
+
 ## TODO
 
 * configure hyprland keybindings
