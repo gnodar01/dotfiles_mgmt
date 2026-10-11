@@ -749,7 +749,7 @@ flatpak install flathub io.github.kolunmi.Bazaar
         * [nwg-look](https://github.com/nwg-piotr/nwg-look), [gui](https://nwg-piotr.github.io/nwg-shell/nwg-look)
     * QT
         * [qt6ct-kde](https://aur.archlinux.org/packages/qt6ct-kde)
-            * WARN: [do not](https://www.reddit.com/r/hyprland/comments/1mx954f/why_tf_do_i_need_qt6ctkde_in_order_to_theme/) get normal `qt5ct`, it's unpatched for KDE apps, and dead in general
+            * WARN: [do not](https://www.reddit.com/r/hyprland/comments/1mx954f/why_tf_do_i_need_qt6ctkde_in_order_to_theme/) get normal `qt6ct`, it's unpatched for KDE apps, and dead in general
             * `hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")`
         * [qt5ct-kde](https://aur.archlinux.org/packages/qt5ct-kde)
             * WARN: [do not](https://www.reddit.com/r/hyprland/comments/1mx954f/why_tf_do_i_need_qt6ctkde_in_order_to_theme/) get normal `qt5ct`, it's unpatched for KDE apps, and dead in general
