@@ -738,10 +738,13 @@ That places `adw-gtk3/` and `adw-gtk3-dark/` into `/usr/share/themes`. Subdirect
     * org.freedesktop.portal.InhibitSettings
     * org.freedesktop.portal.FileChooser
     * XDG
-        * config
-        * XDG_PICTURES_DIR (`hyprshot` respects this)
-        * `xdg-open`, [info](https://dabase.com/tips/archlinux/2021/Setting-the-default-browser/)
+        * dirs
+            * [adrg/xdg](https://github.com/adrg/xdg#xdg-user-directories), [platformdirs](https://platformdirs.readthedocs.io/en/latest/)
+            * [xdg base directory spec](https://specifications.freedesktop.org/basedir/latest/), [arch](https://wiki.archlinux.org/title/XDG_Base_Directory)
+        * [xdg-user-dirs](https://www.freedesktop.org/wiki/Software/xdg-user-dirs/), [arch](https://wiki.archlinux.org/title/XDG_user_directories)
+            * e.g. XDG_PICTURES_DIR (`hyprshot` respects this)
         * mime types, [tutorial](https://www.youtube.com/watch?v=z3F0hTigMvU)
+            * `xdg-open`, [info](https://dabase.com/tips/archlinux/2021/Setting-the-default-browser/)
 * icon pack
 * `uwsm`?
 * fonts (noto symbols, etc)
