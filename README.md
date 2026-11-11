@@ -66,6 +66,7 @@ every shell/nvim start · **[feature]** only a specific alias/command breaks if 
 | **starship** | Prompt. `.zshrc.common` runs `eval "$(starship init zsh)"` on every shell. Missing ⇒ prompt error each start. **[startup]** |
 | **fzf** (≥ 0.48) | Fuzzy finder + completion/keybindings. `.zshrc.common` runs `source <(fzf --zsh)`; `--zsh` needs fzf ≥ 0.48 (older `fzf` will error). Also used by the `fj` / fuzzy-mark jump helpers and `FZF_DEFAULT_COMMAND`. **[startup]** |
 | **git** | (see above) zsh_unplugged git-clones fzf-tab, zsh-vi-mode, fast-syntax-highlighting on first interactive shell. **[startup]** |
+| **atuin** | Synced terminal history. `.zshrc.common` runs `eval "$(atuin init zsh --disable-up-arrow)"`. **[startup]** |
 
 ### 3. neovim — core
 
@@ -135,7 +136,7 @@ Guarded in config (no error if absent) or tied to out-of-scope tooling:
 **macOS (Homebrew):**
 ```sh
 brew install yadm git zsh starship fzf neovim tree-sitter ripgrep fd \
-  node python luarocks eza bat delta jq hexyl
+  node python luarocks eza bat delta jq hexyl yazi atuin
 # (git, ssh, make/clang come with macOS + Xcode CLT: xcode-select --install)
 ```
 

@@ -221,6 +221,7 @@ pacman -S \
     bat \
     jq \
     yazi \
+    atuin \
     fzf \
     eza \
     hexyl \

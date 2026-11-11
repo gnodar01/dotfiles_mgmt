@@ -66,7 +66,8 @@ RUN pixi global install \
       starship \
       git-delta \
       nvim \
-      yazi
+      yazi \
+      atuin
 
 # --- yadm (vendored from upstream, NOT apt) ----------------------------------
 # apt's yadm on Ubuntu 24.04 is 3.2.2, whose `alt` stage links with `ln -nfs` and
@@ -102,14 +103,14 @@ RUN set -eux; \
 # expected command is missing rather than discovering it at dotfiles-bootstrap time.
 RUN set -eux; \
     for c in file git rg fd bat jq python python3 node npm luarocks hexyl \
-             tree-sitter fzf eza starship delta nvim yazi zsh yadm; do \
+             tree-sitter fzf eza starship delta nvim yazi atuin zsh yadm; do \
       command -v "$c" >/dev/null || { echo "FATAL: missing command: $c"; exit 1; }; \
     done; \
     echo "all expected commands present"
 
 # --- report what we ended up with -------------------------------------------
 RUN echo "=== installed tool versions ===" \
-    && for t in file git zsh yadm nvim tree-sitter fzf starship pixi yazi eza bat fd rg jq hexyl delta node npm python luarocks; do \
+    && for t in file git zsh yadm nvim tree-sitter fzf starship pixi yazi atuin eza bat fd rg jq hexyl delta node npm python luarocks; do \
          printf '%-12s ' "$t"; (command -v "$t" >/dev/null && "$t" --version 2>/dev/null | head -1) || echo "MISSING"; \
        done
 
