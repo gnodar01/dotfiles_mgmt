@@ -223,6 +223,7 @@ pacman -S \
     yazi \
     atuin \
     fzf \
+    atuin \
     eza \
     hexyl \
     git-delta \
