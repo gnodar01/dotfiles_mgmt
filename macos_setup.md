@@ -12,6 +12,7 @@ settings -> accessibility -> Zoom
 settings -> accessibility -> Display
   -> Increase contrast (optional)
   -> Differentiate without color
+desktop & dock -> Automatically hide and show the Dock
 
 ## Set up
 
