@@ -110,6 +110,12 @@ vim <some_file>
 nv <some_file>
 ```
 
+#### Rust
+
+```sh
+rustup toolchain install stable
+```
+
 #### atuin
 
 ```sh
