@@ -86,6 +86,8 @@ alfred preferences -> appearance -> options (bottom right)
 yadm clone https://github.com/gnodar01/dotfiles.git
 ```
 
+#### Pixi
+
 [Install pixi](https://pixi.prefix.dev/latest/#installation)
 
 ```sh
@@ -93,6 +95,8 @@ curl -fsSL https://pixi.sh/install.sh | sh
 # new zsh
 pixi global install python
 ``` 
+
+#### volta and nvim
 
 ```sh
 cp ~/.config/yadm/alt/superhome/config/zsh/.zshrc\#\#default ~/.config/yadm/alt/superhome/config/zsh/.zshrc\#\#hostname.$(uname -n)
@@ -103,6 +107,18 @@ volta install node@latest
 # new tab
 vim <some_file>
 nv <some_file>
+```
+
+#### atuin
+
+```sh
+atui iport auto
+atuin setup --sync cloud
+# key is in 1password, or run atuin key on a machine that syncs already
+
+# remove anything added to rc files
+yadm restore ~/.config/yadm/alt/.bashrc##default
+yadm restore ~/.config/yadm/alt/.zshrc##default
 ```
 
 ## TODO
