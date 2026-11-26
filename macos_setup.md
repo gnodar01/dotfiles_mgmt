@@ -2,28 +2,63 @@
 
 ## Settings
 
-settings -> Touch ID & Password -> setup touch id 
-settings -> Keyboard -> keyboard shortcuts -> modifier keys -> caps lock to escape
-settings -> Appearance -> Dark 
-settings -> Accessibility
-  -> Motion -> Reduce motion
-  -> Zoom
-    -> Use keyboard shortcuts to zoom (on)
-    -> Use scroll gestures with modifier keys to zoom
-  -> Display
-    -> Increase contrast (optional)
-    -> Differentiate without color
-Desktop & Dock -> Automatically hide and show the Dock
-Menu Bar
-  -> Automatically hide and show the menu bar: Always
-  -> Spotlight (off)
-  -> Wi-Fi (off)
-  -> 1Password (off)
-  -> Alfred (off)
-  -> CrashPlan (off)
-  -> Self Service+ (off)
-  -> SentinalAgent (off)
-  -> Menu Bar Controls -> Add Controls...
+System Settings
+  -> Touch ID & Password -> setup touch id 
+  -> Keyboard -> keyboard shortcuts -> modifier keys -> caps lock to escape
+  -> Appearance -> Dark 
+  -> Accessibility
+    -> Motion -> Reduce motion
+    -> Zoom
+      -> Use keyboard shortcuts to zoom (on)
+      -> Use scroll gestures with modifier keys to zoom
+    -> Display
+      -> Increase contrast (optional)
+      -> Differentiate without color
+  -> Desktop & Dock -> Automatically hide and show the Dock
+  -> Menu Bar
+    -> Automatically hide and show the menu bar: Always
+    -> Spotlight (off)
+    -> Wi-Fi (off)
+    -> 1Password (off)
+    -> Alfred (off)
+    -> CrashPlan (off)
+    -> Self Service+ (off)
+    -> SentinalAgent (off)
+    -> Menu Bar Controls -> Add Controls...
+
+Finder -> Settings
+  -> General
+    -> Show these items on the desktop:
+      - Hard disks (on)
+      - Connected servers (on)
+    -> New Finder windows show: $HOME
+    -> Open folders in tabs instead of new windows (on)
+  -> Sidebar -> Show these items in the sidebar:
+    -> Recents (off)
+    -> Shared (on or off)
+    -> Favorites
+      -> /Applications (on)
+      -> Desktop (on)
+      -> Documents (on)
+      -> Downloads (on)
+    -> Locations
+      -> iCloud Drive (on or off)
+      -> Cloud Storage (on or off)
+      -> ngogober (on)
+      -> <hostname> (on)
+      -> Hard disks (off)
+      -> External disks (on or off)
+      -> AirDrop (on)
+      -> Bonjour computers (on or off)
+      -> Connected servers (on)
+      -> Trash (on)
+      -> Tags -> Recent Tags (on or off)
+  -> Advanced
+    -> Show all filename extensions (on)
+    -> Show warning before changing an extension (off)
+Finder -> View
+  -> Show Tab Bar (shft-cmd-T)
+  -> Show Path Bar (opt-cmd-P)
 
 ## Set up
 
