@@ -4,7 +4,20 @@
 
 System Settings
   -> Touch ID & Password -> setup touch id 
-  -> Keyboard -> keyboard shortcuts -> modifier keys -> caps lock to escape
+  -> Keyboard -> keyboard shortcuts
+    -> Mission Control
+      -> Mission Control (ctrl-up)
+      -> Application Windows (ctrl-left)
+      -> Show Desktop (ctrl-down)
+      -> Mission Control
+        -> Move left a space (opt-H)
+        -> Move right a space (opt-L)
+        -> Switch to Desktop 1 (ctrl-1)
+      -> Windows
+        -> TODO (replaces hammerspoon)
+    -> modifier keys
+      -> caps lock to escape
+      -> Globe key (ctrl or globe)
   -> Appearance -> Dark 
   -> Accessibility
     -> Motion -> Reduce motion
@@ -14,9 +27,18 @@ System Settings
     -> Display
       -> Increase contrast (optional)
       -> Differentiate without color
-  -> Desktop & Dock -> Automatically hide and show the Dock
+  -> Desktop & Dock
+    -> Automatically hide and show the Dock (on)
+    -> Show suggested and recent apps in Dock (off)
+    -> Windows -> Prefer tabs when opening documents (Always)
+    -> Drag windows to left or right edge of screen to tile (off)
+    -> Drag windows to menu bar to fill screen (off)
+    -> Mission Control
+      -> Automatically rearrange Spaces based on most recent use (off)
+      -> Displays have separate Spaces (on or off)
+    -> Hot Corners... (all off)
   -> Menu Bar
-    -> Automatically hide and show the menu bar: Always
+    -> Automatically hide and show the menu bar (Always)
     -> Spotlight (off)
     -> Wi-Fi (off)
     -> 1Password (off)
@@ -31,7 +53,7 @@ Finder -> Settings
     -> Show these items on the desktop:
       - Hard disks (on)
       - Connected servers (on)
-    -> New Finder windows show: $HOME
+    -> New Finder windows show ($HOME)
     -> Open folders in tabs instead of new windows (on)
   -> Sidebar -> Show these items in the sidebar:
     -> Recents (off)
@@ -83,6 +105,8 @@ brew bundle install ...
 
 ### Post-Homebrew
 
+settings -> Desktop & Dock -> Default web browser (Firefox)
+
 #### Hammerspoon
 
 launch hammerspoon.app
@@ -120,8 +144,8 @@ activate powerpack (key in 1pass)
 
 settings -> privacy & security -> full disk access -> Alfred (on)
 settings -> privacy & security -> accessibility -> Alfred (on)
-settings -> keyboard -> keyboard shortcuts -> spotlight -> show spotlight search: opt-space
-alfred preferences -> general -> alfred hotkey: cmd-space
+settings -> keyboard -> keyboard shortcuts -> spotlight -> show spotlight search (opt-space)
+alfred preferences -> general -> alfred hotkey (cmd-space)
 [download theme](https://github.com/dracula/alfred/blob/master/Dracula.alfredappearance) and open
 alfred preferences -> appearance -> options (bottom right)
   -> Hide hat on Alfred
