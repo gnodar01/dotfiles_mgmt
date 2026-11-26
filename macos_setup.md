@@ -2,17 +2,28 @@
 
 ## Settings
 
-settings -> touch id & password -> setup touch id 
-settings -> keyboard -> keyboard shortcuts -> modifier keys -> caps lock to escape
-settings -> appearance -> Dark 
-settings -> accessibility -> Motion -> Reduce motion
-settings -> accessibility -> Zoom
-  -> Use keyboard shortcuts to zoom (on)
-  -> Use scroll gestures with modifier keys to zoom
-settings -> accessibility -> Display
-  -> Increase contrast (optional)
-  -> Differentiate without color
-desktop & dock -> Automatically hide and show the Dock
+settings -> Touch ID & Password -> setup touch id 
+settings -> Keyboard -> keyboard shortcuts -> modifier keys -> caps lock to escape
+settings -> Appearance -> Dark 
+settings -> Accessibility
+  -> Motion -> Reduce motion
+  -> Zoom
+    -> Use keyboard shortcuts to zoom (on)
+    -> Use scroll gestures with modifier keys to zoom
+  -> Display
+    -> Increase contrast (optional)
+    -> Differentiate without color
+Desktop & Dock -> Automatically hide and show the Dock
+Menu Bar
+  -> Automatically hide and show the menu bar: Always
+  -> Spotlight (off)
+  -> Wi-Fi (off)
+  -> 1Password (off)
+  -> Alfred (off)
+  -> CrashPlan (off)
+  -> Self Service+ (off)
+  -> SentinalAgent (off)
+  -> Menu Bar Controls -> Add Controls...
 
 ## Set up
 
@@ -41,8 +52,8 @@ brew bundle install ...
 
 launch hammerspoon.app
 
-settings -> privacy & security -> accessibility -> hammerspoon on
-settings -> general -> login items & extensions -> add hammerspoon
+settings -> Privacy & Security -> Accessibility -> hammerspoon (on)
+settings -> General -> Login Items & Extensions -> add hammerspoon
 
 #### 1Password
 
@@ -50,7 +61,7 @@ launch 1password, sign in
 
 Setup 1Password ssh
 
-1password settings -> Developer -> turn on SSH Agent
+1password settings -> Developer -> SSH Agent (on)
 
 write ~/.config/1Password/ssh/agent.toml
 
@@ -72,8 +83,8 @@ vertical tabs
 launch alfred -> begin setup
 activate powerpack (key in 1pass)
 
-settings -> privacy & security -> full disk access -> Alfred on
-settings -> privacy & security -> accessibility -> Alfred on
+settings -> privacy & security -> full disk access -> Alfred (on)
+settings -> privacy & security -> accessibility -> Alfred (on)
 settings -> keyboard -> keyboard shortcuts -> spotlight -> show spotlight search: opt-space
 alfred preferences -> general -> alfred hotkey: cmd-space
 [download theme](https://github.com/dracula/alfred/blob/master/Dracula.alfredappearance) and open
