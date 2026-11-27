@@ -2,6 +2,7 @@
 
 ## Settings
 
+```
 System Settings
   -> Touch ID & Password -> setup touch id 
   -> Keyboard -> keyboard shortcuts
@@ -47,7 +48,9 @@ System Settings
     -> Self Service+ (off)
     -> SentinalAgent (off)
     -> Menu Bar Controls -> Add Controls...
+```
 
+```
 Finder -> Settings
   -> General
     -> Show these items on the desktop:
@@ -81,6 +84,7 @@ Finder -> Settings
 Finder -> View
   -> Show Tab Bar (shft-cmd-T)
   -> Show Path Bar (opt-cmd-P)
+```
 
 ## Set up
 
@@ -105,24 +109,29 @@ brew bundle install ...
 
 ### Post-Homebrew
 
-settings -> Desktop & Dock -> Default web browser (Firefox)
+```
+System Settings -> Desktop & Dock -> Default web browser (Firefox)
+```
 
 #### Hammerspoon
 
-launch hammerspoon.app
+Launch hammerspoon.app.
 
-settings -> Privacy & Security -> Accessibility -> hammerspoon (on)
-settings -> General -> Login Items & Extensions -> add hammerspoon
+```
+System Settings -> Privacy & Security -> Accessibility -> hammerspoon (on)
+System Settings -> General -> Login Items & Extensions -> add hammerspoon
+```
 
 #### 1Password
 
-launch 1password, sign in
+* launch 1password, sign in
+* Setup 1Password ssh
 
-Setup 1Password ssh
-
+```
 1password settings -> Developer -> SSH Agent (on)
+```
 
-write ~/.config/1Password/ssh/agent.toml
+write `~/.config/1Password/ssh/agent.toml`
 
 ```toml
 [[ssh-keys]]
@@ -131,25 +140,34 @@ vault = "Work"
 
 #### Firefox
 
-launch firefox, sign in
-enable sync
-enable firefox containers sync
-vertical tabs
+* launch firefox, sign in
+* enable sync
+* enable firefox containers sync
+* vertical tabs
 
 #### Alfred
 
 
-launch alfred -> begin setup
-activate powerpack (key in 1pass)
+* launch alfred -> begin setup
+* activate powerpack (key in 1pass)
 
-settings -> privacy & security -> full disk access -> Alfred (on)
-settings -> privacy & security -> accessibility -> Alfred (on)
-settings -> keyboard -> keyboard shortcuts -> spotlight -> show spotlight search (opt-space)
+```
+System Settings -> privacy & security -> full disk access -> Alfred (on)
+System Settings -> privacy & security -> accessibility -> Alfred (on)
+System Settings -> keyboard -> keyboard shortcuts -> spotlight -> show spotlight search (opt-space)
+```
+
+```
 alfred preferences -> general -> alfred hotkey (cmd-space)
+```
+
 [download theme](https://github.com/dracula/alfred/blob/master/Dracula.alfredappearance) and open
+
+```
 alfred preferences -> appearance -> options (bottom right)
   -> Hide hat on Alfred
   -> Hide menu bar icon
+```
 
 ### Setup dotfiles
 
